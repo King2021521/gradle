@@ -1,0 +1,37 @@
+group 'com.zxm'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'war'
+
+repositories {
+    maven {
+        url "https://nexus.devops.viewchain.net/repository/maven-public/"
+        credentials {
+            username "${mavenUser}"
+            password "${mavenPwd}"
+        }
+    }
+
+}
+
+configurations {
+    compile.exclude module:'spring-boot-starter-logging'
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.1.4.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.1.4.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.1.4.RELEASE'
+    compile group: 'com.alibaba', name: 'fastjson', version: '1.2.28'
+    compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-xml', version: '2.5.0'
+    compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version: '2.5.0'
+    compile group: 'org.aspectj', name: 'aspectjweaver', version: '1.6.8'
+    compile group: 'com.baomidou', name: 'mybatis-plus-boot-starter', version: '3.1.0'
+    compile group: 'org.mybatis', name: 'mybatis', version: '3.2.5'
+    compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.40'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-log4j2', version: '2.1.4.RELEASE'
+    compile group: 'org.apache.commons', name: 'commons-pool2', version: '2.6.2'
+    compileOnly 'org.projectlombok:lombok:1.18.6'
+    compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.7.0'
+}
