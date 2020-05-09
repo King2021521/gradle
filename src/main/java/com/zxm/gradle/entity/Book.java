@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 @TableName
 public class Book {
-    @TableId(type = IdType.ID_WORKER)
+    @TableId(type = IdType.AUTO)
     private Long bookId;
     private String bookName;
     private String bookAuthor;

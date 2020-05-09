@@ -1,7 +1,7 @@
 #配置数据源
 spring:
   datasource:
-      url: jdbc:mysql://192.168.96.232:3306/vh?useUnicode=true&rewriteBatchedStatements=true&useConfigs=maxPerformance&useSSL=false&allowMultiQueries=true
+      url: jdbc:mysql://192.168.96.232:3306/viewhigh?useUnicode=true&rewriteBatchedStatements=true&useConfigs=maxPerformance&useSSL=false&allowMultiQueries=true
       userName: "root"
       passWord: "7POHhYluSy"
       driver-class-name: com.mysql.jdbc.Driver

@@ -2,8 +2,6 @@ package com.zxm.gradle;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zxm.gradle.entity.Book;
 import com.zxm.gradle.service.BookService;
 import org.junit.Test;
@@ -14,6 +12,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -21,22 +22,28 @@ public class MybatisplusApplicationTests {
     @Autowired
     private BookService bookService;
 
-    @Autowired
-    private RedisTemplate redisTemplate;
+    ExecutorService pool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors()*2);
 
     /**
      * 单次插入
      */
     @Test
     public void save() {
-        Book book = new Book();
-        book.setBookName("MyBatis-Plus");
-        book.setBookAuthor("pyi");
-        book.setBookPrice(BigDecimal.valueOf(33.33));
-        book.setPushDate(new Date());
-        // 单插入
-        boolean save = bookService.save(book);
-        System.out.println(save);
+        for(int j=0;j<1000;j++){
+            List<Book> list = new ArrayList<>();
+            for(int i=0;i<5000;i++){
+                Book book = new Book();
+                book.setBookName("think in java");
+                book.setBookAuthor("kd"+i);
+                book.setBookPrice(BigDecimal.valueOf(66.66));
+                book.setPushDate(new Date());
+                list.add(book);
+            }
+
+            Task t = new Task(bookService, list);
+            pool.submit(t);
+            System.out.println("第"+j+"批任务已完成");
+        }
     }
 
     /**
@@ -134,5 +141,22 @@ public class MybatisplusApplicationTests {
         /*Page<Book> bookPage = new Page<>(2, 1);
         IPage<Book> bookIPage = bookService.page(bookPage, Wrappers.emptyWrapper());
         bookIPage.getRecords().forEach(System.out::println);*/
+    }
+
+    class Task implements Runnable{
+
+        private BookService bookService;
+
+        List<Book> books;
+
+        Task(BookService bookService, List<Book> books){
+            this.bookService = bookService;
+            this.books = books;
+        }
+
+        @Override
+        public void run() {
+            bookService.saveBatch(books);
+        }
     }
 }
