@@ -8,6 +8,13 @@ spring:
   output:
     ansi:
       enabled: always
+  mail:
+    host: smtp.qq.com
+    username: 1261608273@qq.com
+    password: password
+    properties.mail.smtp.port: 587
+    protocol: smtp
+    default-encoding: UTF-8
 
 # 配置MyBatis-Plus(具体各参数含义可参照 MyBatisPlusProperties.class 的各个属性))
 mybatis-plus:
