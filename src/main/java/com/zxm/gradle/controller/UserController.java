@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.zxm.gradle.config.JsonResult;
 import com.zxm.gradle.entity.Book;
 import com.zxm.gradle.service.BookService;
+import com.zxm.gradle.service.HttpService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class UserController {
     @Autowired
     private BookService bookService;
 
+    @Autowired
+    private HttpService httpService;
+
     ExecutorService pool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors()*2);
 
     @GetMapping(value = "/books")
@@ -40,22 +44,8 @@ public class UserController {
     }
 
     @GetMapping(value = "/start")
-    public Object start() {
-        for(int j=0;j<1000;j++){
-            List<Book> list = new ArrayList<>();
-            for(int i=0;i<5000;i++){
-                Book book = new Book();
-                book.setBookName("think in java");
-                book.setBookAuthor("kd"+i);
-                book.setBookPrice(BigDecimal.valueOf(66.66));
-                book.setPushDate(new Date());
-                list.add(book);
-            }
-
-            Task t = new Task(bookService, list);
-            pool.submit(t);
-            System.out.println("第"+j+"批任务已完成");
-        }
-        return "success";
+    public void start() throws InterruptedException {
+        httpService.execute();
     }
+
 }
