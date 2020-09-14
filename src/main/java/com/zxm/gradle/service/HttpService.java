@@ -30,6 +30,7 @@ public class HttpService {
 
     static {
         elements = new ArrayList<>();
+        elements.add("https://blog.csdn.net/u012737673/article/details/108471165");
         elements.add("https://blog.csdn.net/u012737673/article/details/107716368");
         elements.add("https://blog.csdn.net/u012737673/article/details/107714909");
         elements.add("https://blog.csdn.net/u012737673/article/details/107716368");
@@ -58,12 +59,10 @@ public class HttpService {
     public void execute() throws InterruptedException {
         Random random = new Random(1);
         while (true) {
-            elements.forEach(url -> {
-                pool.submit(()->{
-                    restTemplate.getForObject(url, String.class);
-                    log.info("当前线程：{}，请求地址{}", Thread.currentThread().getName(), url);
-                });
-            });
+            elements.forEach(url -> pool.submit(()->{
+                restTemplate.getForObject(url, String.class);
+                log.info("当前线程：{}，请求地址{}", Thread.currentThread().getName(), url);
+            }));
 
             Thread.sleep((random.nextInt(20) + 60) * 1000);
         }

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
+import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 import java.util.Date;
 @TableName
@@ -11,6 +12,7 @@ public class Book {
     @TableId(type = IdType.AUTO)
     private Long bookId;
     private String bookName;
+    @NotBlank(message = "哈哈哈")
     private String bookAuthor;
     private BigDecimal bookPrice;
     private Date pushDate;

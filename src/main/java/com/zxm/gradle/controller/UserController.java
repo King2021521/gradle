@@ -8,6 +8,7 @@ import com.zxm.gradle.service.HttpService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -48,4 +49,8 @@ public class UserController {
         httpService.execute();
     }
 
+    @PostMapping("test")
+    public void testPost(@Validated @RequestBody Book book){
+        System.out.println(book.getBookName());
+    }
 }
